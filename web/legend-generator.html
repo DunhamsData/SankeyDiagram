@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://unpkg.com/d3@5.7.0/dist/d3.min.js"></script>
+  <script src="https://unpkg.com/d3fc@14.0.27/build/d3fc.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+  <style>
+
+    body {
+      margin: 0;
+      top: 10px;
+      right: 0;
+      bottom: 0;
+      left: 10px;
+      position: relative;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div id="legend"></div>
+  <input id="save" type="button" value="Save legend" style="position: absolute; left: 250px;">
+  <script>
+    
+    // https://blog.scottlogic.com/2019/03/13/how-to-create-a-continuous-colour-range-legend-using-d3-and-d3fc.html
+    const dom = [1960, 1947]
+    //const colorRange = ['#08488e', '#e5eff9'] // dark, light REAL
+    const colorRange = ['#05478d', '#e6f0fa'] // dark, light USED
+    
+    const color = d3.scaleLinear()
+      .domain(dom)
+      .interpolate(d3.interpolateHcl)
+      .range([d3.hcl(colorRange[1]), d3.hcl(colorRange[0])])
+    const domain = color.domain();
+    const colourScale2 = color
+    
+    const container = d3.select("#legend");
+    const colourScale = d3
+        .scaleSequential(d3.interpolateViridis)
+        .domain([0, 22]);
+    //const domain = colourScale.domain();
+    
+    const size = 200
+    const side = size + 1
+    const width = side;
+    const height = side;
+    
+    const paddedDomain = fc.extentLinear()
+        //.pad([0.1, 0.1])
+        //.pad([0, 0])
+        .padUnit("percent")(domain);
+    const [min, max] = paddedDomain;
+    const expandedDomain = d3.range(min, max, (max - min) / height);
+    
+    const xScale = d3
+    	.scaleBand()
+    	.domain([0, 1])
+    	.range([0, width]);
+    
+    const yScale = d3
+    	.scaleLinear()
+    	.domain(paddedDomain)
+    	.range([height, 0]);
+    
+    const svgBar = fc
+      .autoBandwidth(fc.seriesSvgBar())
+      .xScale(xScale)
+      .yScale(yScale)
+      .crossValue(0)
+      //.align('right')
+      //.orient('horizontal')
+      .baseValue((_, i) => (i > 0 ? expandedDomain[i - 1] : 0))
+      .mainValue(d => d)
+      .decorate(selection => {
+        selection.selectAll("path").style("fill", d => colourScale2(d));
+      });
+    
+    //const axisLabel = fc
+    //  .axisRight(yScale)
+    //  .tickValues([...domain, (domain[1] + domain[0]) / 2])
+    //  .tickSizeOuter(0);
+    
+    const legendSvg = container.append("svg")
+        .attr("height", height)
+        .attr("width", width);
+    
+    const legendBar = legendSvg
+        .append("g")
+        .datum(expandedDomain)
+        .call(svgBar);
+    
+    legendSvg.append("g")
+      //.attr("transform", `translate(10)`)
+      .datum(expandedDomain)
+      //.call(axisLabel)
+      .select(".domain")
+      .attr("visibility", "hidden");
+    
+    //container.style("margin", "10px ");
+
+    //$('#legend svg').css({
+    //    'width': side / 4,
+    //})
+    $('#legend').css({
+        'height': side,
+        'width': side / 4,
+        'transform': 'rotate(90deg)',
+        'transform-origin': 'bottom left',
+        'position': 'absolute',
+        'top': -side,
+        //'margin': 10,
+    })
+
+    // https://github.com/tsayen/dom-to-image
+    var node = document.getElementById('legend');
+    $('#save').click(function(ev) {
+        domtoimage.toPng(node, {height: side / 4, width: side - 1})
+        .then(function (dataUrl) {
+            window.saveAs(dataUrl, 'legend.png');
+        })
+        .catch(function (error) {
+            console.error('Oops, something went wrong!', error);
+        });
+    })
+    
+    
+  </script>
+</body>
+

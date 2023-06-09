@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Interactive Flow of Katherine Dunham’s Dancers, Drummers, and Singers: “Check-Ins” 1947-60</title>
+    <link rel="icon" type="image/png" href="dd-favicon.webp"/>
+    <meta http-equiv="content-type" content="text/html" charset="utf-8" />
+    <link href="font/font.css?family=Playfair+Display" rel="stylesheet" type="text/css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet" />
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<!--    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>-->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!--<script src="https://cdn.plot.ly/plotly-latest.js"></script>-->
+  <script src="https://unpkg.com/d3@5.7.0/dist/d3.min.js"></script>
+  <script src="https://unpkg.com/d3fc@14.0.27/build/d3fc.js"></script>
+    <script>
+        var LINK_HOVER_COLOR = "rgb(255, 130, 0)";
+        var LINK_SELECT_COLOR = "rgb(255, 70, 0)";
+        var NODE_HIGHLIGHT_COLOR = LINK_SELECT_COLOR;
+        var NODE_HOVER_COLOR = LINK_HOVER_COLOR;
+        var NODE_SELECT_COLOR = "rgb(255, 0, 255)";
+        var NO_NODES = true;
+        
+        //var HOVER_COLOR = "rgb(200, 200, 200)";
+        //var HOVER_COLOR2 = "rgb(100, 100, 100)";
+        //var NODE_SELECT_COLOR = "rgb(200, 200, 200)";
+        //var NODE_SELECT_COLOR2 = "rgb(100, 100, 100)";
+        
+        var SNAP_DISTANCE = 180;
+        
+        var NODE_DATA_PATH = 'data/nodes_by_first_time.csv'
+        var LINK_DATA_PATH = 'data/links_by_first_time.csv'
+        var AKAS_DATA_PATH = 'data/akas.csv'
+    </script>
+    <script src="my_plotly-latest.js"></script>
+    <script src="buffers.js"></script>
+<!--    <script src="test13-sankey7.js"></script>-->
+    <script type="module" src="sankey7.js"></script>
+    <script type="module" src="spin.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="searchbar.css" />
+    <link rel="stylesheet" href="sidebar.css" />
+    <link rel="stylesheet" href="text2.css" />
+    <link rel="stylesheet" href="fullscreen.css" />
+    <link rel="stylesheet" href="spin.css" />
+    <style>
+        #plot1, #plot1 .svg-container {cursor: grab;}
+        g {cursor: auto !important;}
+        g.node-entered {cursor: pointer !important;}
+        g.node-entered[node-type__2="checkin"] {transform: rotate(330deg) translate(-5px, 0px);}
+        /*#plot1 g.hovertext {visibility: visible !important;}*/
+        * {
+            box-sizing:border-box;
+            margin-top: 0px;
+        }
+        body, html {
+            width:100%;
+            height:100%;
+            overflow:hidden;
+        }
+        #fullscreen {
+            background-image: url("i-fullscreen.svg");
+            background-color: white;
+            /*background-position: 98% 2%; /* Position the search icon */
+            background-repeat: no-repeat; /* Do not repeat the icon image */
+            background-size: 16px 16px;
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 10px;
+            right: 10px;
+            opacity: 0.8;
+            z-index: 310;
+            cursor: pointer;
+        }
+        .fullscreen2 {
+            background-image: url("i-fullscreen2.svg") !important;
+            opacity: 0.8 !important;
+        }
+        #clear {
+            background-image: url("i-reload.svg");
+            background-color: white;
+            /*background-position: 96% 2%; /* Position the search icon */
+            background-repeat: no-repeat; /* Do not repeat the icon image */
+            background-size: 16px 16px;
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 10px;
+            right: 50px;
+            opacity: 0.8;
+            z-index: 310;
+            cursor: pointer;
+            display: none;
+        }
+        #zoom {
+            background-image: url("i-zoom.svg");
+            background-color: white;
+            /*background-position: 96% 2%; /* Position the search icon */
+            background-repeat: no-repeat; /* Do not repeat the icon image */
+            background-size: 16px 16px;
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 10px;
+            right: 30px;
+            opacity: 0.8;
+            z-index: 310;
+            cursor: pointer;
+        }
+        .rollingwindow {
+            z-index: 300;
+            position: absolute;
+            border: 1px solid #333;
+            overflow:hidden;
+            border: 0px solid #000;
+            /*border-radius: 15px;*/
+            box-shadow: rgb(50, 50, 50) 0px 0px 10px;
+            /*width: 45%;
+            height: 65%;*/
+            background-color: rgba(0,0,0,0.02);
+            
+            /*
+            -webkit-clip-path: polygon(-10% -10%, 110% -10%, 110% 110%, 42% 110%, 42% 80%, -10% 20%);
+            clip-path        : polygon(-10% -10%, 110% -10%, 110% 110%, 42% 110%, 42% 80%, -10% 20%);
+            */
+            
+        }
+        .rollingwindow2 {
+            width: 40%;
+            height: 40%;
+            -webkit-clip-path: none;
+            clip-path        : none;
+        }
+        /*#plot1 .svg-container {
+            transition: top 4s, left 4s;
+        }*/
+        .scalable {
+            /*transform: scale(0.3, 0.3);*/
+            transform-origin: top left;
+            position: relative;
+        }
+        .triangle1 {
+          /*shape-outside: polygon(0 0, 100px 0, 800px 300px, 0 300px);*/
+          shape-outside: polygon(0 0, 20% 0, 100% 100%, 0 100%);
+          /*shape-outside: polygon(0 0, 20% 0, 70% 40%, 70% 0, 100% 0, 100% 100%, 0 100%);*/
+          width: 100%;
+          height: 100%;
+          float: left;
+          opacity: 0;
+          position: relative;
+          z-index: -999
+        }
+        .triangle2 {
+          /*shape-outside: polygon(0 0, 100px 0, 800px 300px, 0 300px);*/
+          shape-outside: polygon(60% 0%, 100% 0%, 100% 100%, 60% 100%);
+          width: 100%;
+          height: 100%;
+          float: right;
+          opacity: 0;
+          position: relative;
+          z-index: -999
+        }
+        #plot2 {
+            position: absolute;
+            top: 0;
+            z-index: 250;
+        }
+        .intext {
+            position: relative;
+            z-index: 260;
+        }
+        #legendDiv {
+        }
+        /*#legend-text {
+            position: absolute;
+            left: 325px;
+            bottom: 70px;
+            font-size: 13px;
+        }*/
+        /*.active-legend svg > g:first-child {
+            transform-origin: center;
+            transform: rotate(90deg) translate(100px, 0) scaleX(0.4);
+            margin-bottom: 0;
+        }
+        .active-legend g:first-of-type.tick text {
+            transform: translate(118px, 190px);
+        }
+        .active-legend g:last-of-type.tick text {
+            transform: translate(-45px, -10px);
+        }*/
+        .border {
+            stroke: rgb(50,50,50);
+            stroke-width: 0.5;
+        }
+        .invisibleBorder {
+            display: none;
+        }
+        [data-tooltip]:before {
+            position : absolute;
+            content : attr(data-tooltip);
+            opacity : 0;
+            background: #333;
+            color: white;
+            right: 0;
+            top: 18px;
+            padding: 1px 4px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        [data-tooltip]:hover:before {
+            opacity : 1;
+        }
+        #plot1 {
+            overflow: auto;
+        }
+        .mycomponent {opacity: 0; }
+        #background-sankey-image {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            height: 100%;
+        }
+        #loading {
+            background: url('spinner.gif');
+            background-repeat: no-repeat;
+            background-size: 128px;
+            text-align: center;
+            position: absolute;
+            height: 128px;
+            width: 128px;
+            z-index: 999;
+            right: 10%;
+            top: 10%;
+        }
+        #spin {
+            position: absolute;
+            height: 128px;
+            width: 128px;
+            z-index: 999;
+            right: 10%;
+            top: 10%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar" class="sidebar collapse show mycomponent"> <!-- class="collapse show active" -->
+            <div id="instructions" class="content">
+                <div class="item title">Instructions</div>
+                <div class="item">The cursor position on the full diagram is centered in the magnification window. Right click to freeze the magnifier (will turn pink), and click and drag the image in the magnifier or pinch/scroll to zoom; right click again to unfreeze.</div>
+                <div class="item">Use the icons in the magnification window to enter and exit fullscreen.</div>
+                <div class="item">Hover over a vertical bar for check-in date and location, and click to highlight all performers and their trajectories.</div>
+                <div class="item">Hover over performer name or flow line to highlight the full trajectory of an individual through the company, and also to see join and departure dates. Alternately, use the search function to select performers.</div><!--<span id='marker'></span></p>-->
+                <div class="item">Hovering will temporarily highlight an individual or check-in moment in orange; clicking will fix the highlight in red. Click again to unfix, or <a id="clearall" class="clearall" href="">clear all</a>.</div>
+            </div>
+            <div id="searchBar">
+                <input id="searchInput" type="text" name="search" placeholder="Search performers..." autocomplete="off">
+                <a id="searchCloseButton" href="" style="display:none;"></a>
+                <div class="searchResults" style="display:none;">
+                    <div class="searchResultsContainer">
+                        <ul id="searchUL"></ul>
+                        <span id="noResults" style="font-style: italic; display:none;"> No matches found.</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div id="plots">
+<!--            <div id="plot1" class=""></div>-->
+            <div id="plot1" class=""></div>
+        </div>
+    </div>
+    <div id="title" class="title"><span class="intext">Interactive Flow of Katherine Dunham’s Dancers, Drummers, and Singers: “Check-Ins” 1947-60</span></div>
+    <div class="triangle1"></div>
+    <div id="desc" class="description mycomponent"><span class="intext">Antonio Jimenez Mavillard created this flow diagram to visualize a dataset manually curated by Harmony Bench and Kate Elswit for <i>Dunham’s Data: Katherine Dunham and Digital Methods for Dance Historical Inquiry</i> (AHRC grant AH/R012989/1). <i>Dunham’s Data</i> explores the kinds of questions and problems that make the analysis and visualization of data meaningful for dance history, through the exemplary case study of African American artist, teacher, and activist Katherine Dunham. The sankey visualization makes it possible to interactively examine the connections among the 189 dancers, drummers, and singers in Dunham’s employ between 1947 and 1960. Doing so, users can see who shared space and time together and therefore have a sense of the transmission of embodied knowledge across hundreds of performers. We shade each performer by the first time they appear in our data, from dark blue for the earliest performers to light blue for those who joined later on. Vertical bars represent “check-ins,” with black signifying where we have comprehensive performer data and white where data is partial. For more on this dataset and analysis, see <a target="_blank" href="">“Visceral Data for Dance Histories: Katherine Dunham’s People, Places, and Pieces”</a> in <i>The Drama Review (TDR)</i>.</span></div>
+    <div id="legendDiv" class="mycomponent">
+        <div id="legend-text"></div>
+        <div id="legend"><img src="legend.png"></img></div>
+        <div id="legend-label-1"></div>
+        <div id="legend-label-2"></div>
+    </div>
+    <input id="ready" value="No" style="display:none">
+<!--    <div id="loading">Loading...</div>-->
+<!--    <img id="spin" src="spinner.gif"></img>-->
+    <img id="background-sankey-image" src="sankey7-centipede.png"></img>
+    <div id="spinner"></div>
+</body>
+
+</html>

@@ -1,0 +1,75 @@
+#title.title {
+    color: #333;
+    font-family: "Playfair Display", serif;
+    font-weight: bold;
+    line-height: normal;
+    text-align: right;
+    font-size: 24px;
+    font-size: 1.9vw;
+    margin: 0 20px 0 0;
+    position: relative;
+}
+
+#desc.description {
+    color: #333;
+    font-family: "Helvetica", serif;
+    font-weight: normal;
+    line-height: normal;
+    text-align: justify;
+    font-size: 13px;
+    font-size: 1vw;
+    margin: 10px 0 10px 20px;
+    right: 20px;
+    position: relative;
+}
+
+#sidebar {
+    background-color: #eee;
+}
+
+#sidebar .content {
+    margin: 0 0 0 0;
+}
+
+#sidebar .item {
+    color: #333;
+    font-family: "Helvetica", serif;
+    font-weight: normal;
+    line-height: normal;
+    text-align: none;
+    font-size: 13px;
+    font-size: 1.6vh;
+    margin: 10px 0 0 0;
+    hyphens: auto;
+}
+
+#sidebar .title {
+    color: #333;
+    font-family: "Playfair Display", serif;
+    font-weight: bold;
+    line-height: normal;
+    text-align: none;
+    font-size: 20px;
+    font-size: 3vh;
+    margin: 10px 0 10px 0;
+}
+
+.mylegend {
+}
+
+.mylabel {
+}
+
+.mytooltip {
+}
+
+a {
+    transition: all 0.3s;
+}
+a:hover {
+    text-decoration: none;
+}
+
+body {
+    margin: 4px 0 8px 0;
+}

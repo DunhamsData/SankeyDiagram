@@ -1,0 +1,9 @@
+
+
+var my_plot = document.getElementById('plot1')
+my_plot.on('dblClick', function() {console.log('qqq');
+    var my_nodes = document.getElementsByClassName('sankey-node');
+    for (i=0; i<my_nodes.length; i++) {
+        d3.select(my_nodes[i]).attr('selected', null);
+    };
+});

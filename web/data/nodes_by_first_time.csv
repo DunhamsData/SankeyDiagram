@@ -1,0 +1,35 @@
+name,label,color,nodeType__2,city__2,country__2
+Vanoye Aikens,Vanoye Aikens,green,cast,"Apr 07, 1947","Jan 04, 1948"
+James Alexander,James Alexander,green,cast,"Apr 07, 1947","Jan 04, 1948"
+Ronnie Aul,Ronnie Aul,green,cast,"Apr 07, 1947","Sep 01, 1947"
+Wilbert Bradley,Wilbert Bradley,green,cast,"Apr 07, 1947","Jan 04, 1948"
+Jay Brooks,Jay Brooks,green,cast,"Dec 29, 1947","Jan 04, 1948"
+Miriam Burton,Miriam Burton,green,cast,"Apr 07, 1947","Jun 28, 1947"
+Umberto Canto,Umberto Canto,green,cast,"Jul 01, 1947","Jan 04, 1948"
+Eddy Clay,Eddy Clay,green,cast,"Mar 14, 1947","Jan 04, 1948"
+Jean Leon Destine,Jean Leon Destine,green,cast,"Apr 07, 1947","Sep 01, 1947"
+Lucille Ellis,Lucille Ellis,green,cast,"Apr 07, 1947","Jan 04, 1948"
+Awilda Frasier,Awilda Frasier,green,cast,"Jan 04, 1948","Jan 04, 1948"
+Tommy Gomez,Tommy Gomez,green,cast,"Dec 29, 1947","Jan 04, 1948"
+"Mar 14, 1947","Mar 14, 1947",lightgrey,checkin,New York City,USA
+"Apr 07, 1947","Apr 07, 1947",black,checkin,New York City,USA
+"Jun 28, 1947","Jun 28, 1947",lightgrey,checkin,Mexico City,Mexico
+"Jul 01, 1947","Jul 01, 1947",black,checkin,Mexico City,Mexico
+"Jul 06, 1947","Jul 06, 1947",lightgrey,checkin,Mexico City,Mexico
+"Aug 24, 1947","Aug 24, 1947",black,checkin,Mexico City,Mexico
+"Sep 01, 1947","Sep 01, 1947",lightgrey,checkin,Mexico City,Mexico
+"Dec 29, 1947","Dec 29, 1947",black,checkin,San Diego,USA
+"Jan 02, 1948","Jan 02, 1948",lightgrey,checkin,"Stockton, CA",USA
+"Jan 04, 1948","Jan 04, 1948",black,checkin,San Francisco,USA
+Vanoye Aikens 2,Vanoye Aikens,green,cast,"Apr 07, 1947","Jan 04, 1948"
+James Alexander 2,James Alexander,green,cast,"Apr 07, 1947","Jan 04, 1948"
+Ronnie Aul 2,Ronnie Aul,green,cast,"Apr 07, 1947","Sep 01, 1947"
+Wilbert Bradley 2,Wilbert Bradley,green,cast,"Apr 07, 1947","Jan 04, 1948"
+Jay Brooks 2,Jay Brooks,green,cast,"Dec 29, 1947","Jan 04, 1948"
+Miriam Burton 2,Miriam Burton,green,cast,"Apr 07, 1947","Jun 28, 1947"
+Umberto Canto 2,Umberto Canto,green,cast,"Jul 01, 1947","Jan 04, 1948"
+Eddy Clay 2,Eddy Clay,green,cast,"Mar 14, 1947","Jan 04, 1948"
+Jean Leon Destine 2,Jean Leon Destine,green,cast,"Apr 07, 1947","Sep 01, 1947"
+Lucille Ellis 2,Lucille Ellis,green,cast,"Apr 07, 1947","Jan 04, 1948"
+Awilda Frasier 2,Awilda Frasier,green,cast,"Jan 04, 1948","Jan 04, 1948"
+Tommy Gomez 2,Tommy Gomez,green,cast,"Dec 29, 1947","Jan 04, 1948"

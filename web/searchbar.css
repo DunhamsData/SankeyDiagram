@@ -1,0 +1,144 @@
+/* Search bar */
+
+#searchBar {
+    z-index: 250;
+    margin-top: 15px;
+    position: absolute;
+    width: 70%;
+  cursor: auto !important;
+}
+
+#blablabla {
+
+    -webkit-transition-property: top;
+    -webkit-transition-duration: 1s;
+    -webkit-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+
+    -moz-transition-property: top;
+    -moz-transition-duration: 1s;
+    -moz-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+
+    -ms-transition-property: top;
+    -ms-transition-duration: 1s;
+    -ms-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+
+    transition-property: top;
+    transition-duration: 1s;
+    transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+}
+#blablabla.closed {
+    position: relative;
+    top: -200px;
+}
+
+#searchInput {
+  background-image: url('searchicon2.png'); /* Add a search icon to input */
+  background-position: 5px 5px; /* Position the search icon */
+  background-repeat: no-repeat; /* Do not repeat the icon image */
+  background-size: 16px 16px;
+  width: 100%; /* Full-width */
+  font-size: 14px; /* Increase font-size */
+  padding: 10px 30px 10px 30px; /* Add some padding */
+  border: 1px solid #ddd; /* Add a grey border */
+  margin-bottom: 12px; /* Add some space below the input */
+  border-radius: 20px;
+  z-index: 5;
+  font: 12px/14px Arial, Helvetica, sans-serif;
+  outline: 0;
+  height: 25px !important;
+  min-height: 25px !important;
+  line-height: 25px !important;
+}
+
+#searchCloseButton {
+  background-image: url('closeicon2.png'); /* Add a search icon to input */
+  background-position: 0 0; /* Position the search icon */
+  background-repeat: no-repeat; /* Do not repeat the icon image */
+  background-size: 20px 20px;
+  width: 20px; /* Full-width */
+  height: 20px;
+  color: #bfbfbf;
+  top: 2px;
+  right: 4px;
+  position: absolute;
+  opacity: 0.9;
+  outline: none;
+  z-index: 10;
+  cursor: pointer !important;
+}
+
+.liPerformer {
+  outline: none;
+  margin-left: 20px;
+  padding-left: 1em;
+  text-indent: -1em;
+}
+#searchUL {
+  /* Remove default list styling */
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  margin-top: 0;
+  line-height: 1em;
+}
+
+#searchUL li {
+  text-decoration: none;
+  font: 12px/14px Arial, Helvetica, sans-serif;
+/*  border: 1px solid #ddd; /* Add a border to all links */*/
+/*  background-color: #f6f6f6; /* Grey background color */*/
+/*  padding: 8px; /* Add some padding */*/
+/*  text-decoration: none; /* Remove default text underline */*/
+  font-size: 10px; /* Increase the font-size */
+/*  color: black; /* Add a black text color */*/
+  display: block; /* Make it into a block element to fill the whole list */
+  cursor: pointer;
+  color: #1EAEDB;
+}
+#searchUL li:hover {
+  color: rgb(255, 130, 0);
+  transition-delay: 0.2s;
+}
+#searchUL li.selected {
+  color: rgb(255, 70, 0);
+}
+
+#searchResults {
+  height: 200px;
+}
+.searchResults {
+  padding: 10px 10px 0 0;
+  border-radius: 0px;
+/*  min-width: 246px;*/
+/*  max-width: 246px;*/
+  width: 96%;
+  height: 220px;
+  margin-left: 2%;
+}
+.searchResultsContainer {
+  outline: none !important;
+  font-size:12px;
+  line-height: 100%;
+/*  max-height: 200px;*/
+  overflow-y: scroll;
+/*  scrollbar-color: #333 #ffffff00;*/
+/*  scrollbar-width: thin;*/
+}
+
+#noResults {
+  font: 12px/14px Arial, Helvetica, sans-serif;
+  margin-left: 20px;
+}
+
+.transition {
+  -webkit-transition: top 2s ease, left 2s ease;
+  -moz-transition: top 2s ease, left 2s ease;
+  -o-transition: top 2s ease, left 2s ease;
+  transition: top 2s ease, left 2s ease;
+}
+.noTransition {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}
